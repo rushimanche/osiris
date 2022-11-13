@@ -1,0 +1,14 @@
+syntax = "proto3";
+package osiris.osiris;
+
+import "gogoproto/gogo.proto";
+import "osiris/osiris/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "osiris/x/osiris/types";
+
+// GenesisState defines the osiris module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  // this line is used by starport scaffolding # genesis/proto/state
+}
