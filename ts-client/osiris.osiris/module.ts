@@ -7,10 +7,32 @@ import { msgTypes } from './registry';
 import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
+import { MsgCreatePost } from "./types/osiris/osiris/tx";
+import { MsgSaveUserData } from "./types/osiris/osiris/tx";
 
 
-export {  };
+export { MsgCreatePost, MsgSaveUserData };
 
+type sendMsgCreatePostParams = {
+  value: MsgCreatePost,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgSaveUserDataParams = {
+  value: MsgSaveUserData,
+  fee?: StdFee,
+  memo?: string
+};
+
+
+type msgCreatePostParams = {
+  value: MsgCreatePost,
+};
+
+type msgSaveUserDataParams = {
+  value: MsgSaveUserData,
+};
 
 
 export const registry = new Registry(msgTypes);
@@ -30,6 +52,50 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 
   return {
 		
+		async sendMsgCreatePost({ value, fee, memo }: sendMsgCreatePostParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgCreatePost: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgCreatePost({ value: MsgCreatePost.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgCreatePost: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgSaveUserData({ value, fee, memo }: sendMsgSaveUserDataParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgSaveUserData: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgSaveUserData({ value: MsgSaveUserData.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgSaveUserData: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		
+		msgCreatePost({ value }: msgCreatePostParams): EncodeObject {
+			try {
+				return { typeUrl: "/osiris.osiris.MsgCreatePost", value: MsgCreatePost.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgCreatePost: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgSaveUserData({ value }: msgSaveUserDataParams): EncodeObject {
+			try {
+				return { typeUrl: "/osiris.osiris.MsgSaveUserData", value: MsgSaveUserData.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgSaveUserData: Could not create message: ' + e.message)
+			}
+		},
 		
 	}
 };

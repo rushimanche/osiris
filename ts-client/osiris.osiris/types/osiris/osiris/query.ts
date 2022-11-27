@@ -1,6 +1,8 @@
 /* eslint-disable */
 import _m0 from "protobufjs/minimal";
+import { PageRequest, PageResponse } from "../../cosmos/base/query/v1beta1/pagination";
 import { Params } from "./params";
+import { UserData } from "./user_data";
 
 export const protobufPackage = "osiris.osiris";
 
@@ -19,6 +21,23 @@ export interface QueryOsirisRequest {
 
 export interface QueryOsirisResponse {
   text: string;
+}
+
+export interface QueryGetUserDataRequest {
+  index: string;
+}
+
+export interface QueryGetUserDataResponse {
+  userData: UserData | undefined;
+}
+
+export interface QueryAllUserDataRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllUserDataResponse {
+  userData: UserData[];
+  pagination: PageResponse | undefined;
 }
 
 function createBaseQueryParamsRequest(): QueryParamsRequest {
@@ -195,12 +214,227 @@ export const QueryOsirisResponse = {
   },
 };
 
+function createBaseQueryGetUserDataRequest(): QueryGetUserDataRequest {
+  return { index: "" };
+}
+
+export const QueryGetUserDataRequest = {
+  encode(message: QueryGetUserDataRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.index !== "") {
+      writer.uint32(10).string(message.index);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetUserDataRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryGetUserDataRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.index = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetUserDataRequest {
+    return { index: isSet(object.index) ? String(object.index) : "" };
+  },
+
+  toJSON(message: QueryGetUserDataRequest): unknown {
+    const obj: any = {};
+    message.index !== undefined && (obj.index = message.index);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryGetUserDataRequest>, I>>(object: I): QueryGetUserDataRequest {
+    const message = createBaseQueryGetUserDataRequest();
+    message.index = object.index ?? "";
+    return message;
+  },
+};
+
+function createBaseQueryGetUserDataResponse(): QueryGetUserDataResponse {
+  return { userData: undefined };
+}
+
+export const QueryGetUserDataResponse = {
+  encode(message: QueryGetUserDataResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.userData !== undefined) {
+      UserData.encode(message.userData, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetUserDataResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryGetUserDataResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.userData = UserData.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetUserDataResponse {
+    return { userData: isSet(object.userData) ? UserData.fromJSON(object.userData) : undefined };
+  },
+
+  toJSON(message: QueryGetUserDataResponse): unknown {
+    const obj: any = {};
+    message.userData !== undefined && (obj.userData = message.userData ? UserData.toJSON(message.userData) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryGetUserDataResponse>, I>>(object: I): QueryGetUserDataResponse {
+    const message = createBaseQueryGetUserDataResponse();
+    message.userData = (object.userData !== undefined && object.userData !== null)
+      ? UserData.fromPartial(object.userData)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryAllUserDataRequest(): QueryAllUserDataRequest {
+  return { pagination: undefined };
+}
+
+export const QueryAllUserDataRequest = {
+  encode(message: QueryAllUserDataRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllUserDataRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryAllUserDataRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllUserDataRequest {
+    return { pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined };
+  },
+
+  toJSON(message: QueryAllUserDataRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined
+      && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryAllUserDataRequest>, I>>(object: I): QueryAllUserDataRequest {
+    const message = createBaseQueryAllUserDataRequest();
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageRequest.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryAllUserDataResponse(): QueryAllUserDataResponse {
+  return { userData: [], pagination: undefined };
+}
+
+export const QueryAllUserDataResponse = {
+  encode(message: QueryAllUserDataResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    for (const v of message.userData) {
+      UserData.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllUserDataResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryAllUserDataResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.userData.push(UserData.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllUserDataResponse {
+    return {
+      userData: Array.isArray(object?.userData) ? object.userData.map((e: any) => UserData.fromJSON(e)) : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
+    };
+  },
+
+  toJSON(message: QueryAllUserDataResponse): unknown {
+    const obj: any = {};
+    if (message.userData) {
+      obj.userData = message.userData.map((e) => e ? UserData.toJSON(e) : undefined);
+    } else {
+      obj.userData = [];
+    }
+    message.pagination !== undefined
+      && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryAllUserDataResponse>, I>>(object: I): QueryAllUserDataResponse {
+    const message = createBaseQueryAllUserDataResponse();
+    message.userData = object.userData?.map((e) => UserData.fromPartial(e)) || [];
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageResponse.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
   /** Queries a list of Osiris items. */
   Osiris(request: QueryOsirisRequest): Promise<QueryOsirisResponse>;
+  /** Queries a UserData by index. */
+  UserData(request: QueryGetUserDataRequest): Promise<QueryGetUserDataResponse>;
+  /** Queries a list of UserData items. */
+  UserDataAll(request: QueryAllUserDataRequest): Promise<QueryAllUserDataResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -209,6 +443,8 @@ export class QueryClientImpl implements Query {
     this.rpc = rpc;
     this.Params = this.Params.bind(this);
     this.Osiris = this.Osiris.bind(this);
+    this.UserData = this.UserData.bind(this);
+    this.UserDataAll = this.UserDataAll.bind(this);
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -220,6 +456,18 @@ export class QueryClientImpl implements Query {
     const data = QueryOsirisRequest.encode(request).finish();
     const promise = this.rpc.request("osiris.osiris.Query", "Osiris", data);
     return promise.then((data) => QueryOsirisResponse.decode(new _m0.Reader(data)));
+  }
+
+  UserData(request: QueryGetUserDataRequest): Promise<QueryGetUserDataResponse> {
+    const data = QueryGetUserDataRequest.encode(request).finish();
+    const promise = this.rpc.request("osiris.osiris.Query", "UserData", data);
+    return promise.then((data) => QueryGetUserDataResponse.decode(new _m0.Reader(data)));
+  }
+
+  UserDataAll(request: QueryAllUserDataRequest): Promise<QueryAllUserDataResponse> {
+    const data = QueryAllUserDataRequest.encode(request).finish();
+    const promise = this.rpc.request("osiris.osiris.Query", "UserDataAll", data);
+    return promise.then((data) => QueryAllUserDataResponse.decode(new _m0.Reader(data)));
   }
 }
 

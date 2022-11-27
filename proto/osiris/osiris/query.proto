@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "osiris/osiris/params.proto";
+import "osiris/osiris/user_data.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "osiris/x/osiris/types";
@@ -18,6 +19,16 @@ service Query {
   // Queries a list of Osiris items.
 	rpc Osiris(QueryOsirisRequest) returns (QueryOsirisResponse) {
 		option (google.api.http).get = "/osiris/osiris/osiris";
+	}
+
+// Queries a UserData by index.
+	rpc UserData(QueryGetUserDataRequest) returns (QueryGetUserDataResponse) {
+		option (google.api.http).get = "/osiris/osiris/user_data/{index}";
+	}
+
+	// Queries a list of UserData items.
+	rpc UserDataAll(QueryAllUserDataRequest) returns (QueryAllUserDataResponse) {
+		option (google.api.http).get = "/osiris/osiris/user_data";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -37,6 +48,24 @@ message QueryOsirisRequest {
 
 message QueryOsirisResponse {
   string text = 1;
+}
+
+message QueryGetUserDataRequest {
+	  string index = 1;
+
+}
+
+message QueryGetUserDataResponse {
+	UserData userData = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllUserDataRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllUserDataResponse {
+	repeated UserData userData = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

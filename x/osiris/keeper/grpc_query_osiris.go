@@ -19,5 +19,5 @@ func (k Keeper) Osiris(goCtx context.Context, req *types.QueryOsirisRequest) (*t
 	// TODO: Process the query
 	_ = ctx
 
-	return &types.QueryOsirisResponse{}, nil
+	return &types.QueryOsirisResponse{Text: "Hello, Ignite CLI!"}, nil
 }

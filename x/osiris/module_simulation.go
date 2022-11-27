@@ -24,7 +24,15 @@ var (
 )
 
 const (
-// this line is used by starport scaffolding # simapp/module/const
+	opWeightMsgCreatePost = "op_weight_msg_create_post"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgCreatePost int = 100
+
+	opWeightMsgSaveUserData = "op_weight_msg_save_user_data"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgSaveUserData int = 100
+
+	// this line is used by starport scaffolding # simapp/module/const
 )
 
 // GenerateGenesisState creates a randomized GenState of the module
@@ -57,6 +65,28 @@ func (am AppModule) RegisterStoreDecoder(_ sdk.StoreDecoderRegistry) {}
 // WeightedOperations returns the all the gov module operations with their respective weights.
 func (am AppModule) WeightedOperations(simState module.SimulationState) []simtypes.WeightedOperation {
 	operations := make([]simtypes.WeightedOperation, 0)
+
+	var weightMsgCreatePost int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgCreatePost, &weightMsgCreatePost, nil,
+		func(_ *rand.Rand) {
+			weightMsgCreatePost = defaultWeightMsgCreatePost
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCreatePost,
+		osirissimulation.SimulateMsgCreatePost(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgSaveUserData int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgSaveUserData, &weightMsgSaveUserData, nil,
+		func(_ *rand.Rand) {
+			weightMsgSaveUserData = defaultWeightMsgSaveUserData
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgSaveUserData,
+		osirissimulation.SimulateMsgSaveUserData(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
 
 	// this line is used by starport scaffolding # simapp/module/operation
 
