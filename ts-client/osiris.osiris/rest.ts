@@ -53,7 +53,7 @@ export interface OsirisQueryParamsResponse {
 }
 
 export interface OsirisUserData {
-  index?: string;
+  creator?: string;
   message?: string;
 }
 

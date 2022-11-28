@@ -23,7 +23,7 @@ func (gs GenesisState) Validate() error {
 	userDataIndexMap := make(map[string]struct{})
 
 	for _, elem := range gs.UserDataList {
-		index := string(UserDataKey(elem.Index))
+		index := string(UserDataKey(elem.Creator))
 		if _, ok := userDataIndexMap[index]; ok {
 			return fmt.Errorf("duplicated index for userData")
 		}

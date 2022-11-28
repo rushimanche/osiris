@@ -4,7 +4,7 @@ package osiris.osiris;
 option go_package = "osiris/x/osiris/types";
 
 message UserData {
-  string index = 1; 
+  string creator = 1;
   string message = 2; 
   
 }

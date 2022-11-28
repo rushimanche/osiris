@@ -23,7 +23,7 @@ message MsgCreatePostResponse {
 
 message MsgSaveUserData {
   string creator = 1;
-  string userData = 2;
+  string message = 2;
 }
 
 message MsgSaveUserDataResponse {

@@ -15,7 +15,7 @@ export interface MsgCreatePostResponse {
 
 export interface MsgSaveUserData {
   creator: string;
-  userData: string;
+  message: string;
 }
 
 export interface MsgSaveUserDataResponse {
@@ -129,7 +129,7 @@ export const MsgCreatePostResponse = {
 };
 
 function createBaseMsgSaveUserData(): MsgSaveUserData {
-  return { creator: "", userData: "" };
+  return { creator: "", message: "" };
 }
 
 export const MsgSaveUserData = {
@@ -137,8 +137,8 @@ export const MsgSaveUserData = {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
-    if (message.userData !== "") {
-      writer.uint32(18).string(message.userData);
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
     }
     return writer;
   },
@@ -154,7 +154,7 @@ export const MsgSaveUserData = {
           message.creator = reader.string();
           break;
         case 2:
-          message.userData = reader.string();
+          message.message = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -167,21 +167,21 @@ export const MsgSaveUserData = {
   fromJSON(object: any): MsgSaveUserData {
     return {
       creator: isSet(object.creator) ? String(object.creator) : "",
-      userData: isSet(object.userData) ? String(object.userData) : "",
+      message: isSet(object.message) ? String(object.message) : "",
     };
   },
 
   toJSON(message: MsgSaveUserData): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
-    message.userData !== undefined && (obj.userData = message.userData);
+    message.message !== undefined && (obj.message = message.message);
     return obj;
   },
 
   fromPartial<I extends Exact<DeepPartial<MsgSaveUserData>, I>>(object: I): MsgSaveUserData {
     const message = createBaseMsgSaveUserData();
     message.creator = object.creator ?? "";
-    message.userData = object.userData ?? "";
+    message.message = object.message ?? "";
     return message;
   },
 };

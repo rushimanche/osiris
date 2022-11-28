@@ -11,7 +11,7 @@ func (k Keeper) SetUserData(ctx sdk.Context, userData types.UserData) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.UserDataKeyPrefix))
 	b := k.cdc.MustMarshal(&userData)
 	store.Set(types.UserDataKey(
-		userData.Index,
+		userData.Creator,
 	), b)
 }
 

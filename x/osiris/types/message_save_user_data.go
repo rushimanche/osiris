@@ -9,10 +9,10 @@ const TypeMsgSaveUserData = "save_user_data"
 
 var _ sdk.Msg = &MsgSaveUserData{}
 
-func NewMsgSaveUserData(creator string, userData string) *MsgSaveUserData {
+func NewMsgSaveUserData(creator string, message string) *MsgSaveUserData {
 	return &MsgSaveUserData{
 		Creator:  creator,
-		UserData: userData,
+		Message: message,
 	}
 }
 

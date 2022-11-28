@@ -10,8 +10,15 @@ import (
 func (k msgServer) SaveUserData(goCtx context.Context, msg *types.MsgSaveUserData) (*types.MsgSaveUserDataResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: Handling the message
-	_ = ctx
+  // Create variable of type Recipe
+  var userData = types.UserData{
+     Creator: msg.Creator,
+     Message: msg.Message,
+  }
 
-	return &types.MsgSaveUserDataResponse{}, nil
+  // Add a recipe to the store and get back the ID
+  k.SetUserData(ctx, userData)
+
+  // Return the ID of the recipe
+  return &types.MsgSaveUserDataResponse{}, nil
 }

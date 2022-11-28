@@ -44391,7 +44391,7 @@ paths:
                 items:
                   type: object
                   properties:
-                    index:
+                    creator:
                       type: string
                     message:
                       type: string
@@ -44513,7 +44513,7 @@ paths:
               userData:
                 type: object
                 properties:
-                  index:
+                  creator:
                     type: string
                   message:
                     type: string
@@ -73946,7 +73946,7 @@ definitions:
         items:
           type: object
           properties:
-            index:
+            creator:
               type: string
             message:
               type: string
@@ -73982,7 +73982,7 @@ definitions:
       userData:
         type: object
         properties:
-          index:
+          creator:
             type: string
           message:
             type: string
@@ -74001,7 +74001,7 @@ definitions:
   osiris.osiris.UserData:
     type: object
     properties:
-      index:
+      creator:
         type: string
       message:
         type: string

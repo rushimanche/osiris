@@ -4,18 +4,18 @@ import _m0 from "protobufjs/minimal";
 export const protobufPackage = "osiris.osiris";
 
 export interface UserData {
-  index: string;
+  creator: string;
   message: string;
 }
 
 function createBaseUserData(): UserData {
-  return { index: "", message: "" };
+  return { creator: "", message: "" };
 }
 
 export const UserData = {
   encode(message: UserData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.index !== "") {
-      writer.uint32(10).string(message.index);
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
     }
     if (message.message !== "") {
       writer.uint32(18).string(message.message);
@@ -31,7 +31,7 @@ export const UserData = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.index = reader.string();
+          message.creator = reader.string();
           break;
         case 2:
           message.message = reader.string();
@@ -46,21 +46,21 @@ export const UserData = {
 
   fromJSON(object: any): UserData {
     return {
-      index: isSet(object.index) ? String(object.index) : "",
+      creator: isSet(object.creator) ? String(object.creator) : "",
       message: isSet(object.message) ? String(object.message) : "",
     };
   },
 
   toJSON(message: UserData): unknown {
     const obj: any = {};
-    message.index !== undefined && (obj.index = message.index);
+    message.creator !== undefined && (obj.creator = message.creator);
     message.message !== undefined && (obj.message = message.message);
     return obj;
   },
 
   fromPartial<I extends Exact<DeepPartial<UserData>, I>>(object: I): UserData {
     const message = createBaseUserData();
-    message.index = object.index ?? "";
+    message.creator = object.creator ?? "";
     message.message = object.message ?? "";
     return message;
   },
